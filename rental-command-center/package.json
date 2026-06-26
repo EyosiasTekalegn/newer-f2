@@ -12,6 +12,8 @@
 }
   },
   "dependencies": {
+    "vite": "^6.2.3",
+    "@vitejs/plugin-react": "^5.0.4"
     "@google/genai": "^2.4.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
