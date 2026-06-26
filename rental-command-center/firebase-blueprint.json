@@ -1,0 +1,437 @@
+{
+  "entities": {
+    "customer": {
+      "title": "Customer",
+      "description": "Customer records",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "email", "address", "createdAt"]
+    },
+    "rental": {
+      "title": "Rental",
+      "description": "Rental contracts and orders",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "quotation": {
+      "title": "Quotation",
+      "description": "Price quotations for rentals",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" }
+      }
+    },
+    "booking": {
+      "title": "Booking",
+      "description": "Confirmed booking records",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" }
+      }
+    },
+    "inventoryReservation": {
+      "title": "Inventory Reservation",
+      "description": "Stock reserved for bookings",
+      "type": "object",
+      "properties": {
+        "itemVariantId": { "type": "string" }
+      }
+    },
+    "itemVariant": {
+      "title": "Item Variant",
+      "description": "Individual stock catalog items",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      }
+    },
+    "depositHold": {
+      "title": "Deposit Hold",
+      "description": "Holds on security deposits",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" }
+      }
+    },
+    "maintenanceOrder": {
+      "title": "Maintenance Order",
+      "description": "Damaged items in repair",
+      "type": "object",
+      "properties": {
+        "itemName": { "type": "string" }
+      }
+    },
+    "inventoryMovement": {
+      "title": "Inventory Movement",
+      "description": "Stock ledger transaction movements",
+      "type": "object",
+      "properties": {
+        "itemVariantId": { "type": "string" }
+      }
+    },
+    "return": {
+      "title": "Return",
+      "description": "Return records for rented inventory",
+      "type": "object",
+      "properties": {
+        "rentalId": { "type": "string" }
+      }
+    },
+    "packages": {
+      "title": "Package",
+      "description": "Bundled package configurations",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      }
+    },
+    "logistics": {
+      "title": "Logistics",
+      "description": "Delivery and return worker logs",
+      "type": "object",
+      "properties": {
+        "rentalId": { "type": "string" }
+      }
+    },
+    "worker": {
+      "title": "Worker",
+      "description": "Workforce profiles",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      }
+    },
+    "attendance": {
+      "title": "Attendance",
+      "description": "Worker check-in/out attendance logs",
+      "type": "object",
+      "properties": {
+        "workerId": { "type": "string" },
+        "workerName": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "checkIn": { "type": "string", "format": "date-time" },
+        "checkOut": { "type": "string", "format": "date-time" },
+        "hoursWorked": { "type": "number" },
+        "status": { "type": "string", "enum": ["Present", "Absent", "Late", "Half Day"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["workerId", "workerName", "date", "checkIn", "status", "createdAt", "updatedAt"]
+    },
+    "workerCommission": {
+      "title": "Worker Commission",
+      "description": "Log of worker piece-rate commissions",
+      "type": "object",
+      "properties": {
+        "workerId": { "type": "string" },
+        "workerName": { "type": "string" },
+        "rentalId": { "type": "string" },
+        "rentalReference": { "type": "string" },
+        "type": { "type": "string", "enum": ["loading", "unloading"] },
+        "totalItems": { "type": "number" },
+        "pieceRate": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Pending", "Approved", "Paid"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["workerId", "workerName", "rentalId", "type", "totalItems", "pieceRate", "totalAmount", "status", "createdAt", "updatedAt"]
+    },
+    "payrollRun": {
+      "title": "Payroll Run",
+      "description": "Batched payroll pay cycle calculations",
+      "type": "object",
+      "properties": {
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Draft", "Approved", "Paid"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["totalAmount", "status", "createdAt", "updatedAt"]
+    },
+    "bankLedger": {
+      "title": "Bank Ledger",
+      "description": "Connected bank accounts and cash boxes",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "initialBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "initialBalance", "currentBalance", "isActive", "createdAt", "updatedAt"]
+    },
+    "accountTransaction": {
+      "title": "Account Transaction",
+      "description": "Double entry book transaction logging entries",
+      "type": "object",
+      "properties": {
+        "transactionId": { "type": "string" },
+        "entryType": { "type": "string", "enum": ["debit", "credit"] },
+        "accountId": { "type": "string" },
+        "accountName": { "type": "string" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "referenceType": { "type": "string", "enum": ["booking", "rental", "procurement", "expense", "refund", "deposit"] },
+        "referenceId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["transactionId", "entryType", "accountId", "accountName", "amount", "description", "referenceType", "referenceId", "date", "createdAt"]
+    },
+    "supplier": {
+      "title": "Supplier",
+      "description": "Suppliers and vendors directory",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "contactPerson": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "taxId": { "type": "string" },
+        "paymentTerms": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "contactPerson", "phone", "email", "address", "isActive", "createdAt", "updatedAt"]
+    },
+    "purchaseOrder": {
+      "title": "Purchase Order",
+      "description": "Procurement orders for suppliers",
+      "type": "object",
+      "properties": {
+        "poNumber": { "type": "string" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "orderDate": { "type": "string", "format": "date-time" },
+        "expectedDeliveryDate": { "type": "string", "format": "date-time" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemVariantId": { "type": "string" },
+              "name": { "type": "string" },
+              "quantity": { "type": "number" },
+              "unitCost": { "type": "number" },
+              "totalCost": { "type": "number" },
+              "receivedQty": { "type": "number" }
+            }
+          }
+        },
+        "subtotal": { "type": "number" },
+        "tax": { "type": "number" },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["Draft", "Sent", "Received", "Closed", "Cancelled"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["poNumber", "supplierId", "supplierName", "orderDate", "expectedDeliveryDate", "items", "subtotal", "tax", "total", "status", "createdAt", "updatedAt"]
+    },
+    "contract": {
+      "title": "Contract",
+      "description": "Rental contract documents (Part A, Part B, Full Combined)",
+      "type": "object",
+      "properties": {
+        "rentalId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "contractType": { "type": "string", "enum": ["partA", "partB", "full"] },
+        "pdfUrl": { "type": "string" },
+        "pdfName": { "type": "string" },
+        "status": { "type": "string", "enum": ["Draft", "Signed", "Final"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["rentalId", "customerId", "customerName", "contractType", "pdfUrl", "pdfName", "status", "createdAt", "updatedAt"]
+    },
+    "issue": {
+      "title": "Issue",
+      "description": "Logged customer issues or rental disputes",
+      "type": "object",
+      "properties": {
+        "issueNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "category": { "type": "string", "enum": ["damage", "missing", "payment", "delivery", "return", "customer_complaint", "other"] },
+        "priority": { "type": "string", "enum": ["low", "medium", "high", "urgent"] },
+        "status": { "type": "string", "enum": ["open", "in_progress", "resolved", "closed", "escalated"] },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["issueNumber", "customerId", "customerName", "category", "priority", "status", "description", "createdAt", "updatedAt"]
+    },
+    "issueComment": {
+      "title": "Issue Comment",
+      "description": "Thread comments and timeline logs on custom issues",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "comment": { "type": "string" },
+        "isInternal": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "comment", "isInternal", "createdAt"]
+    },
+    "notification": {
+      "title": "Notification",
+      "description": "In-app notifications and alerts",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["info", "warning", "success", "error"] },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "category": { "type": "string", "enum": ["rental", "booking", "inventory", "finance", "workforce", "maintenance", "issue", "system"] },
+        "link": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "referenceType": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "isSystemGenerated": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "type", "priority", "category", "isRead", "isSystemGenerated", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/customers/{customerId}": {
+      "schema": "customer",
+      "description": "Customer records"
+    },
+    "/rentals/{rentalId}": {
+      "schema": "rental",
+      "description": "Rental contracts"
+    },
+    "/quotations/{quotationId}": {
+      "schema": "quotation",
+      "description": "Price quotes"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "booking",
+      "description": "Confirmed rental bookings"
+    },
+    "/inventoryReservations/{reservationId}": {
+      "schema": "inventoryReservation",
+      "description": "Inventory bookings allocations"
+    },
+    "/itemVariants/{variantId}": {
+      "schema": "itemVariant",
+      "description": "Item variant and stock"
+    },
+    "/depositHolds/{depositHoldId}": {
+      "schema": "depositHold",
+      "description": "Security deposit authorization holds"
+    },
+    "/maintenanceOrders/{maintenanceOrderId}": {
+      "schema": "maintenanceOrder",
+      "description": "Log of items sent for tuning or repairs"
+    },
+    "/inventoryMovements/{inventoryMovementId}": {
+      "schema": "inventoryMovement",
+      "description": "Detailed log of stock state transitions"
+    },
+    "/returns/{returnId}": {
+      "schema": "return",
+      "description": "Customer offloading and returns log"
+    },
+    "/packages/{packageId}": {
+      "schema": "packages",
+      "description": "Bundled package templates"
+    },
+    "/logistics/{logisticsId}": {
+      "schema": "logistics",
+      "description": "Piece-rate logistics logs for loading and delivery"
+    },
+    "/workers/{workerId}": {
+      "schema": "worker",
+      "description": "Workforce roster database"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": "attendance",
+      "description": "Worker check-in/out attendance logs"
+    },
+    "/workerCommissions/{commissionId}": {
+      "schema": "workerCommission",
+      "description": "Log of worker piece-rate commissions"
+    },
+    "/payrollRuns/{payrollRunId}": {
+      "schema": "payrollRun",
+      "description": "Batched payroll pay cycle calculations"
+    },
+    "/bankLedgers/{ledgerId}": {
+      "schema": "bankLedger",
+      "description": "Connected bank accounts and cash boxes"
+    },
+    "/accountTransactions/{transactionId}": {
+      "schema": "accountTransaction",
+      "description": "Double entry book transaction logging entries"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "supplier",
+      "description": "Suppliers and vendors directory"
+    },
+    "/purchaseOrders/{purchaseOrderId}": {
+      "schema": "purchaseOrder",
+      "description": "Procurement orders for suppliers"
+    },
+    "/contracts/{contractId}": {
+      "schema": "contract",
+      "description": "Rental contracts"
+    },
+    "/issues/{issueId}": {
+      "schema": "issue",
+      "description": "Customer issues or rental disputes"
+    },
+    "/issues/{issueId}/issueComments/{commentId}": {
+      "schema": "issueComment",
+      "description": "Internal and customer timeline notes/comments on disputes"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "notification",
+      "description": "In-app notifications and alerts"
+    },
+    "/auditLogs/{logId}": {
+      "description": "System compliance audit logs"
+    },
+    "/roles/{roleId}": {
+      "description": "User authority access roles"
+    },
+    "/users/{userId}": {
+      "description": "User role assignments directory"
+    },
+    "/pricingSettings/{settingsId}": {
+      "description": "Base pricing configuration settings"
+    },
+    "/priceLists/{priceListId}": {
+      "description": "Seasonal promotional price lists"
+    },
+    "/templates/{templateId}": {
+      "description": "HTML contract, quote and invoice templates"
+    },
+    "/numberingRules/{ruleId}": {
+      "description": "Transactional padding numbering rules"
+    }
+  }
+}

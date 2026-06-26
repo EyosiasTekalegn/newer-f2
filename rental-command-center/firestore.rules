@@ -1,0 +1,169 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidCustomer(data) {
+      let hasRequiredKeys = data.keys().hasAll(['name', 'phone', 'email', 'address', 'createdAt']);
+      let hasOnlyAllowedKeys = data.keys().size() == 5;
+      return hasRequiredKeys && hasOnlyAllowedKeys
+        && data.name is string && data.name.size() <= 100
+        && data.phone is string && data.phone.size() <= 50
+        && data.email is string && data.email.size() <= 150
+        && data.address is string && data.address.size() <= 500
+        && data.createdAt is timestamp;
+    }
+
+    function isValidCustomerUpdate(data) {
+      let allowedKeys = ['name', 'phone', 'email', 'address'];
+      let affectedKeys = data.diff(existing()).affectedKeys();
+      return affectedKeys.hasOnly(allowedKeys)
+        && (affectedKeys.hasAny(['name']) ? data.name is string && data.name.size() <= 100 : true)
+        && (affectedKeys.hasAny(['phone']) ? data.phone is string && data.phone.size() <= 50 : true)
+        && (affectedKeys.hasAny(['email']) ? data.email is string && data.email.size() <= 150 : true)
+        && (affectedKeys.hasAny(['address']) ? data.address is string && data.address.size() <= 500 : true);
+    }
+
+    match /customers/{customerId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(customerId) && isValidCustomer(incoming());
+      allow update: if isSignedIn() && isValidId(customerId) && isValidCustomerUpdate(incoming());
+      allow delete: if isSignedIn() && isValidId(customerId);
+    }
+
+    match /rentals/{rentalId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /quotations/{quotationId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /bookings/{bookingId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /inventoryReservations/{reservationId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /itemVariants/{variantId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /depositHolds/{depositHoldId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /maintenanceOrders/{maintenanceOrderId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /inventoryMovements/{inventoryMovementId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /returns/{returnId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /packages/{packageId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /logistics/{logisticsId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /workers/{workerId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /attendance/{attendanceId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /workerCommissions/{commissionId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /payrollRuns/{payrollRunId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /bankLedgers/{ledgerId} {
+      allow get, list, create, update, delete: if isSignedIn();
+    }
+
+    match /accountTransactions/{transactionId} {
+      allow get, list, create, update, delete: if isSignedIn();
+    }
+
+    match /suppliers/{supplierId} {
+      allow get, list, create, update, delete: if isSignedIn();
+    }
+
+    match /purchaseOrders/{purchaseOrderId} {
+      allow get, list, create, update, delete: if isSignedIn();
+    }
+
+    match /contracts/{contractId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /notifications/{notificationId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /issues/{issueId} {
+      allow read, write: if isSignedIn();
+
+      match /issueComments/{commentId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    match /auditLogs/{logId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /roles/{roleId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /users/{userId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /pricingSettings/{settingsId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /priceLists/{priceListId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /templates/{templateId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /numberingRules/{ruleId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}
